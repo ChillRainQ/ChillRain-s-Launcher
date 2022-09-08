@@ -18,11 +18,13 @@ public class MainLayOut  {
     }
     public static void topLayoutRoot(List<Component> comps){
         comps.get(0).setBounds(2, 3, 400, 25);
-        comps.get(1).setBounds(410, 3, 90, 25);
+        comps.get(1).setBounds(405, 3, 90, 25);
     }
     public static void middleLayoutRoot(List<Component> comps){
         comps.get(0).setBounds(2, 3, 400, 400);
-        comps.get(1).setBounds(410, 3, 90, 25);
-        comps.get(2).setBounds(410,31, 90, 25);
+        comps.get(1).setBounds(405, 3, 90, 25);
+        comps.get(2).setBounds(495, 3, 90, 25);
+        comps.get(3).setBounds(405, 28, 90, 25);
+        comps.get(4).setBounds(495, 28, 90, 25);
     }
 }

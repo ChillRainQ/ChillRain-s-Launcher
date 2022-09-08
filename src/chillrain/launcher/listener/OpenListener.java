@@ -59,7 +59,7 @@ public class OpenListener {
      * @param dir 列表框
      * @throws IOException
      */
-    public static void lauchTheGame(JList dir) throws IOException {
+    public static void lauchTheGame(JList dir, JComboBox gamemode) throws IOException {
         List<String> path = CompFunction.getPath(dir);
         String gamePath = path.get(0);
         String gameDir = path.get(1);
@@ -68,7 +68,7 @@ public class OpenListener {
         String gameStr = gamePath + "\\" + gameExeName;
         if(gameExeName != null) {
             File game = new File(gameStr);
-            GameLaucher.gameStart(game, gameExeName, gamePath);
+            GameLaucher.gameStartMode(game, gameExeName, gamePath, gamemode);
         }else {
             JOptionPane.showMessageDialog(dir,"游戏未设定启动设置！请进行启动设置");
         }

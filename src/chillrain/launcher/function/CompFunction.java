@@ -1,6 +1,7 @@
 package chillrain.launcher.function;
 
 import chillrain.launcher.filter.DirFilter;
+import chillrain.launcher.frame.MainFrame;
 import chillrain.launcher.util.Config;
 
 import javax.swing.*;
@@ -68,7 +69,7 @@ public class CompFunction {
             gameDir = new File(gameDirPath);
         }
 //        如果文件夹对象存在且不为空则显示对列表框进行数据显示
-        if (gameDir.exists()){
+        if (gameDir != null && gameDir.exists()){
             path.setText(gameDirPath);
             new CompFunction().jListAddEle(gameDirPath, dir);
             isPath = true;
@@ -98,6 +99,10 @@ public class CompFunction {
         return Arrays.asList(gamePath, gameDir);
     }
 
+    public static void modeAdd(JComboBox gamemode){
+        gamemode.addItem("bat模式");
+        gamemode.addItem("file模式");
+    }
 
 
 }

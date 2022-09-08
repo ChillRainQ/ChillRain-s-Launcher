@@ -12,15 +12,17 @@ import java.io.IOException;
  */
 public class JListMouseListener implements MouseListener {
     public JList dir;
-    public JListMouseListener(JList dir) {
+    public JComboBox gamemode;
+    public JListMouseListener(JList dir, JComboBox gamemode) {
         this.dir = dir;
+        this.gamemode = gamemode;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2){
             try {
-                OpenListener.lauchTheGame(dir);
+                OpenListener.lauchTheGame(dir, gamemode);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

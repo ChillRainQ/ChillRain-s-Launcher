@@ -3,6 +3,7 @@ package chillrain.launcher.frame;
 import chillrain.launcher.function.CompFunction;
 import chillrain.launcher.listener.JListMouseListener;
 import chillrain.launcher.listener.OpenListener;
+import chillrain.launcher.myComp.TxtLable;
 import chillrain.launcher.util.Config;
 import chillrain.launcher.util.RootAddComponents;
 
@@ -30,6 +31,8 @@ public class MainFrame extends JFrame{
     JButton launchGame = new JButton("启动游戏");
     JList<String> dir = new JList<>();
     JScrollPane sp = new JScrollPane(dir);
+    TxtLable mode = new TxtLable("启动模式：");
+    JComboBox<Integer> gamemode = new JComboBox<>();
 
     /**
      *
@@ -79,6 +82,8 @@ public class MainFrame extends JFrame{
         comps.add(sp);
         comps.add(setGameLauncher);
         comps.add(launchGame);
+        comps.add(mode);
+        comps.add(gamemode);
         RootAddComponents.addmidle(middle, comps);
 //      单击按钮获取游戏启动设置
         setGameLauncher.addActionListener(e -> {
@@ -91,15 +96,16 @@ public class MainFrame extends JFrame{
 //        单击按钮启动游戏
         launchGame.addActionListener(e -> {
             try {
-                OpenListener.lauchTheGame(dir);
+                OpenListener.lauchTheGame(dir, gamemode);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
 //        双击列表框启动游戏
-        dir.addMouseListener(new JListMouseListener(dir));
+        dir.addMouseListener(new JListMouseListener(dir, gamemode));
+//        添加启动模式
+        CompFunction.modeAdd(gamemode);
         middle.setOpaque(true);
-//        middle.setBackground(new Color(255, 255, 0));
         middle.setBorder(BorderFactory.createLineBorder(new Color(111, 111, 111)));
         return middle;
     }
@@ -126,5 +132,13 @@ public class MainFrame extends JFrame{
 
     public JScrollPane getSp() {
         return sp;
+    }
+
+    public TxtLable getMode() {
+        return mode;
+    }
+
+    public JComboBox<Integer> getGamemode() {
+        return gamemode;
     }
 }
