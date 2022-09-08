@@ -41,6 +41,11 @@ public class CompFunction {
         File file = new File(dirPath);
         File[] dirs = file.listFiles(new DirFilter());
         DefaultListModel<String> model = new DefaultListModel<>();
+//        如果文件夹被第三方软件锁定则可能获得的列表为空 判断是否为空 是则直接return
+        if (dirs == null){
+            JOptionPane.showMessageDialog(jList, "加载目录内容失败，文件夹可能被第三方软件锁定！");
+            return;
+        }
         for (File dir : dirs) {
             model.addElement(dir.getName());
         }
@@ -57,13 +62,20 @@ public class CompFunction {
         Properties properties = Config.propertiesRead();
         String gameDirPath = properties.getProperty("gameDirPath");
         Boolean isPath = false;
+        File gameDir = null;
+//        如果配置文件中gameDirPath存在则创建文件夹对象
         if (gameDirPath != null){
+            gameDir = new File(gameDirPath);
+        }
+//        如果文件夹对象存在且不为空则显示对列表框进行数据显示
+        if (gameDir.exists()){
             path.setText(gameDirPath);
             new CompFunction().jListAddEle(gameDirPath, dir);
             isPath = true;
         }
+//        如果不存在则提示未选择游戏目录
         if(isPath == false){
-            JOptionPane.showMessageDialog(path, "未选择游戏目录，请单击“选择目录”！");
+            JOptionPane.showMessageDialog(path, "游戏目录配置不正确，请单击“选择目录”！");
         }
     }
 
