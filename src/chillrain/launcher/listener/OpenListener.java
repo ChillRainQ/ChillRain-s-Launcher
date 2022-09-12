@@ -73,7 +73,11 @@ public class OpenListener {
             JOptionPane.showMessageDialog(dir,"游戏未设定启动设置！请进行启动设置");
         }
     }
-    public static void choose(){
-
+    public static void openAsDir(String dirName) throws IOException {
+        Properties config = Config.propertiesRead();
+        String dir = config.getProperty("gameDirPath");
+        File opendir = new File(dir + "/" + dirName);
+        Desktop.getDesktop().open(opendir);
+        System.out.println(opendir.getPath());
     }
 }

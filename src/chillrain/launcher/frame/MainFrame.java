@@ -33,6 +33,7 @@ public class MainFrame extends JFrame{
     JScrollPane sp = new JScrollPane(dir);
     TxtLable mode = new TxtLable("启动模式：");
     JComboBox<Integer> gamemode = new JComboBox<>();
+    JButton openAsDir = new JButton("打开为文件夹");
 
     /**
      *
@@ -75,7 +76,7 @@ public class MainFrame extends JFrame{
      * 中部控件
      * @return
      */
-    private Component middle(){
+    private Component middle() throws IOException {
         JPanel middle = new JPanel();
         middle.setLayout(null);
         List<Component> comps = new ArrayList<>();
@@ -84,6 +85,7 @@ public class MainFrame extends JFrame{
         comps.add(launchGame);
         comps.add(mode);
         comps.add(gamemode);
+        comps.add(openAsDir);
         RootAddComponents.addmidle(middle, comps);
 //      单击按钮获取游戏启动设置
         setGameLauncher.addActionListener(e -> {
@@ -105,6 +107,14 @@ public class MainFrame extends JFrame{
         dir.addMouseListener(new JListMouseListener(dir, gamemode));
 //        添加启动模式
         CompFunction.modeAdd(gamemode);
+//        打开选中的游戏文件夹于Explorer
+        openAsDir.addActionListener(e -> {
+            try {
+                OpenListener.openAsDir(dir.getModel().getElementAt(dir.getSelectedIndex()));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         middle.setOpaque(true);
         middle.setBorder(BorderFactory.createLineBorder(new Color(111, 111, 111)));
         return middle;

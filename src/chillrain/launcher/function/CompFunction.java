@@ -100,8 +100,8 @@ public class CompFunction {
     }
 
     public static void modeAdd(JComboBox gamemode){
-        gamemode.addItem("bat模式");
         gamemode.addItem("file模式");
+        gamemode.addItem("bat模式");
     }
 
 

@@ -1,3 +1,4 @@
 E:
-cd E:\BIC\AmaYui1
-start AmaYui1.exe
+cd E:\BIC\AmaYui2
+start 
+pause

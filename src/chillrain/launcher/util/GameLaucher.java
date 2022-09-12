@@ -17,11 +17,11 @@ public class GameLaucher {
         int mode = gamemode.getSelectedIndex();
         switch (mode){
             //        以bat脚本启动游戏
-            case 0:makeGameStater(game, gameStr, gamePath);
+            case 1:makeGameStater(game, gameStr, gamePath);
                 GameLaucher.launchMode(stater);
                 break;
             //        以File对象启动游戏
-            case 1:GameLaucher.launchMode(game);
+            case 0:GameLaucher.launchMode(game);
                 break;
 
         }
@@ -32,7 +32,7 @@ public class GameLaucher {
 //    创建游戏启动脚本
     public static void makeGameStater(File game, String gameStr, String gamePath) throws IOException {
         stater.createNewFile();
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(stater), "ASCII");
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(stater), "SHIFT_JIS");
         BufferedWriter Bwriter = new BufferedWriter(writer);
         String cmd = game.getPath().charAt(0) + ":\ncd " + gamePath + "\nstart " + gameStr;
         System.out.println(cmd);

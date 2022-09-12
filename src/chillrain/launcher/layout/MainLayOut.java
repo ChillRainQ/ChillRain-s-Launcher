@@ -26,5 +26,6 @@ public class MainLayOut  {
         comps.get(2).setBounds(495, 3, 90, 25);
         comps.get(3).setBounds(405, 28, 90, 25);
         comps.get(4).setBounds(495, 28, 90, 25);
+        comps.get(5).setBounds(405, 56, 175, 25);
     }
 }

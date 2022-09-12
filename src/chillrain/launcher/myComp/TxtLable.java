@@ -11,6 +11,5 @@ public class TxtLable extends JLabel {
         super();
         this.setText(text);
         this.setHorizontalAlignment(SwingConstants.CENTER);
-//        this.setPreferredSize(size);
     }
 }
