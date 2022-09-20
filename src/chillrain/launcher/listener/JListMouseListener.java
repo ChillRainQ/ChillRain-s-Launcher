@@ -1,7 +1,5 @@
 package chillrain.launcher.listener;
 
-import chillrain.launcher.frame.MainFrame;
-
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,7 +20,7 @@ public class JListMouseListener implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2){
             try {
-                OpenListener.lauchTheGame(dir, gamemode);
+                ButtonListener.lauchTheGame(dir, gamemode);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

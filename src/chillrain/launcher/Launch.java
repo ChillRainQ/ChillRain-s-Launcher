@@ -3,7 +3,6 @@ package chillrain.launcher;
 import chillrain.launcher.frame.MainFrame;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 

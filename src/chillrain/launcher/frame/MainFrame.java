@@ -2,20 +2,16 @@ package chillrain.launcher.frame;
 
 import chillrain.launcher.function.CompFunction;
 import chillrain.launcher.listener.JListMouseListener;
-import chillrain.launcher.listener.OpenListener;
+import chillrain.launcher.listener.ButtonListener;
 import chillrain.launcher.myComp.TxtLable;
 import chillrain.launcher.util.Config;
 import chillrain.launcher.util.RootAddComponents;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -32,8 +28,11 @@ public class MainFrame extends JFrame{
     JList<String> dir = new JList<>();
     JScrollPane sp = new JScrollPane(dir);
     TxtLable mode = new TxtLable("启动模式：");
-    JComboBox<Integer> gamemode = new JComboBox<>();
+    JComboBox<String> gamemode = new JComboBox<>();
     JButton openAsDir = new JButton("打开为文件夹");
+    JButton addGameDir = new JButton("添加游戏文件夹");
+    JButton reShow = new JButton("刷新列表");
+    JButton update = new JButton("更新");
 
     /**
      *
@@ -61,12 +60,21 @@ public class MainFrame extends JFrame{
         List<Component> comps = new ArrayList<>();
         comps.add(path);
         comps.add(open);
+        comps.add(reShow);
         RootAddComponents.addtop(top, comps);
         path.setEnabled(false);
 //        获取文本内容
         CompFunction.jTextGetPathByConfig(path, dir);
 //        打开目录的按钮 如果配置文件中没有目录则写入目录
-        open.addActionListener(e -> OpenListener.open(top, path, dir));
+        open.addActionListener(e -> ButtonListener.setGameConfig(top, path, dir));
+//        刷新游戏目录
+        reShow.addActionListener(e -> {
+            try {
+                CompFunction.reShowJList(dir);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         top.setOpaque(true);
         top.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0xA0A0A0)));
         return top;
@@ -74,7 +82,6 @@ public class MainFrame extends JFrame{
 
     /**
      * 中部控件
-     * @return
      */
     private Component middle() throws IOException {
         JPanel middle = new JPanel();
@@ -86,11 +93,13 @@ public class MainFrame extends JFrame{
         comps.add(mode);
         comps.add(gamemode);
         comps.add(openAsDir);
+        comps.add(addGameDir);
+        comps.add(update);
         RootAddComponents.addmidle(middle, comps);
 //      单击按钮获取游戏启动设置
         setGameLauncher.addActionListener(e -> {
             try {
-                OpenListener.setGameLauncher(middle, dir);
+                ButtonListener.setGameLauncher(middle, dir);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -98,7 +107,7 @@ public class MainFrame extends JFrame{
 //        单击按钮启动游戏
         launchGame.addActionListener(e -> {
             try {
-                OpenListener.lauchTheGame(dir, gamemode);
+                ButtonListener.lauchTheGame(dir, gamemode);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -110,7 +119,23 @@ public class MainFrame extends JFrame{
 //        打开选中的游戏文件夹于Explorer
         openAsDir.addActionListener(e -> {
             try {
-                OpenListener.openAsDir(dir.getModel().getElementAt(dir.getSelectedIndex()));
+                ButtonListener.openAsDir(dir.getModel().getElementAt(dir.getSelectedIndex()));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+//        向游戏目录中添加游戏
+        addGameDir.addActionListener(e -> {
+            try {
+                ButtonListener.addGameDir(addGameDir);
+                CompFunction.reShowJList(dir);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        update.addActionListener(e -> {
+            try {
+                ButtonListener.update(update);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -148,7 +173,7 @@ public class MainFrame extends JFrame{
         return mode;
     }
 
-    public JComboBox<Integer> getGamemode() {
+    public JComboBox<String> getGamemode() {
         return gamemode;
     }
 }

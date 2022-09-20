@@ -13,17 +13,17 @@ public class GameLaucher {
      * @param game 要启动的游戏
      */
     static File stater = new File("resources/stater.bat");
-    public static void gameStartMode(File game, String gameStr, String gamePath, JComboBox gamemode) throws IOException {
+    public static void gameStartMode(File game, String gameStr, String gamePath, JComboBox<String> gamemode) throws IOException {
         int mode = gamemode.getSelectedIndex();
         switch (mode){
-            //        以bat脚本启动游戏
-            case 1:makeGameStater(game, gameStr, gamePath);
-                GameLaucher.launchMode(stater);
-                break;
             //        以File对象启动游戏
             case 0:GameLaucher.launchMode(game);
                 break;
-
+            //        以bat脚本启动游戏 并删除脚本
+            case 1:makeGameStater(game, gameStr, gamePath);
+                GameLaucher.launchMode(stater);
+                System.out.println(stater.delete());
+                break;
         }
 
 
@@ -39,7 +39,6 @@ public class GameLaucher {
         writer.write(cmd);
         writer.close();
         Bwriter.close();
-
     }
 //    启动游戏
     public static void launchMode(File launch) throws IOException {

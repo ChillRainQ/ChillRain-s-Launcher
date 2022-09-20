@@ -1,6 +1,7 @@
 package chillrain.launcher.util;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Properties;
 
 /**
@@ -11,10 +12,10 @@ public class Config {
     public static Properties properties = new Properties();
 
     public static void gameDirPathWrite(String key, String mess) throws IOException {
-        InputStream in = new FileInputStream(config);
+        InputStream in = Files.newInputStream(config.toPath());
         properties.load(in);
         properties.setProperty(key, mess);
-        OutputStream write = new FileOutputStream(config);
+        OutputStream write = Files.newOutputStream(config.toPath());
         properties.store(write, key);
         in.close();
         write.close();

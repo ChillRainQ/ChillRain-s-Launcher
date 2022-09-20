@@ -1,7 +1,6 @@
 package chillrain.launcher.function;
 
 import chillrain.launcher.filter.DirFilter;
-import chillrain.launcher.frame.MainFrame;
 import chillrain.launcher.util.Config;
 
 import javax.swing.*;
@@ -16,6 +15,7 @@ import java.util.Properties;
  * @author ChillRain 2022 09 06
  */
 public class CompFunction {
+    static DefaultListModel<String> model = new DefaultListModel<>();
     /**
      * 选择打开目录
      * @param open 功能控件
@@ -38,10 +38,10 @@ public class CompFunction {
      * @param dirPath 目录路径
      * @param jList 列表框
      */
-    public void jListAddEle(String dirPath, JList jList){
+    public static void jListAddEle(String dirPath, JList<String> jList){
         File file = new File(dirPath);
         File[] dirs = file.listFiles(new DirFilter());
-        DefaultListModel<String> model = new DefaultListModel<>();
+        model = new DefaultListModel<>();
 //        如果文件夹被第三方软件锁定则可能获得的列表为空 判断是否为空 是则直接return
         if (dirs == null){
             JOptionPane.showMessageDialog(jList, "加载目录内容失败，文件夹可能被第三方软件锁定！");
@@ -57,12 +57,11 @@ public class CompFunction {
      * 向列表框内展示文件夹
      * @param path 文本框控件
      * @param dir 列表框控件
-     * @throws IOException
      */
-    public static void jTextGetPathByConfig(JTextField path, JList dir) throws IOException {
+    public static void jTextGetPathByConfig(JTextField path, JList<String> dir) throws IOException {
         Properties properties = Config.propertiesRead();
         String gameDirPath = properties.getProperty("gameDirPath");
-        Boolean isPath = false;
+        boolean isPath = false;
         File gameDir = null;
 //        如果配置文件中gameDirPath存在则创建文件夹对象
         if (gameDirPath != null){
@@ -71,23 +70,31 @@ public class CompFunction {
 //        如果文件夹对象存在且不为空则显示对列表框进行数据显示
         if (gameDir != null && gameDir.exists()){
             path.setText(gameDirPath);
-            new CompFunction().jListAddEle(gameDirPath, dir);
+            CompFunction.jListAddEle(gameDirPath, dir);
             isPath = true;
         }
 //        如果不存在则提示未选择游戏目录
-        if(isPath == false){
+        if(!isPath){
             JOptionPane.showMessageDialog(path, "游戏目录配置不正确，请单击“选择目录”！");
         }
+    }
+
+    /**
+     * 刷新目录
+     * @param list 要刷新的列表
+     */
+    public static void reShowJList( JList<String> list) throws IOException {
+        model.clear();
+        CompFunction.jListAddEle(Config.propertiesRead().getProperty("gameDirPath"),  list);
     }
 
     /**
      * 获取选定的文件目录
      * @param dir 列表框控件
      * @return 返回 游戏路径 游戏文件夹名称
-     * @throws IOException
      */
 //    获取选定的文件目录
-    public static List<String> getPath(JList dir) throws IOException {
+    public static List<String> getPath(JList<String> dir) throws IOException {
 //        获取游戏文件夹名
         int index = dir.getAnchorSelectionIndex();
         String gameDir = (String) dir.getModel().getElementAt(index);
@@ -99,7 +106,7 @@ public class CompFunction {
         return Arrays.asList(gamePath, gameDir);
     }
 
-    public static void modeAdd(JComboBox gamemode){
+    public static void modeAdd(JComboBox<String> gamemode){
         gamemode.addItem("file模式");
         gamemode.addItem("bat模式");
     }
